@@ -16,6 +16,7 @@ requires = [
     'js.bootstrap',
     'pyzmq',
     'couchdbkit',
+    'pyramid_beaker',
     ]
 
 setup(name='cyplp.timelapse_commander',
