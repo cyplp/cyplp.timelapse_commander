@@ -14,6 +14,8 @@ requires = [
     'waitress',
     'rebecca.fanstatic',
     'js.bootstrap',
+    'pyzmq',
+    'couchdbkit',
     ]
 
 setup(name='cyplp.timelapse_commander',

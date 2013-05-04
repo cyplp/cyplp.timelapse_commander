@@ -1,5 +1,33 @@
 <metal:main use-macro="load: layout.pt">
   <div metal:fill-slot="content">
-    <h1>Hello</h1>
+    <h1>Controls</h1>
+
+    <div tal:condition="status == 'off'">
+      <form name="launchForm" method="POST" action="${request.route_path('launch')}">
+	<div class="row">
+	  <label class="span4" for="batchName">Batch name:</label>
+	  <input class="span5" type="text" name="batchName" id="batchName" placeholder='name of the batch' />
+	</div>
+	<div class="row">
+	  <label class="span4" for="fileName">File name template:</label>
+	  <input class="span5" type="text" name="fileName" id="fileName" placeholder="batch%s.jpg" />
+	</div>
+	<div class="row">
+	  <label class="span4" for="interval">Interval:</label>
+	  <input class="span5" type="text" name="interval" id="interval" placeholder="time in second" />
+	</div>
+
+	<div class="row-fluid">
+	  <input class="span2 btn btn-success offset6" type="submit" value="Launch !"/>
+	</div>
+      </form>
+    </div>
+
+    <div tal:condition="status == 'on'">
+      <div class="row">
+	<a class="span2 btn btn-success offset6"
+	   href="${request.route_path('stop')}">Stop</a>
+      </div>
+    </div>
   </div>
 </metal:main>

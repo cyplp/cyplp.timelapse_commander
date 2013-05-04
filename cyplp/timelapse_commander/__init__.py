@@ -7,7 +7,11 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
 
     config.add_route('home', '/')
+
     config.add_route('controls', '/controls')
+    config.add_route('launch', '/controls/launch')
+    config.add_route('stop', '/controls/stop')
+
     config.add_route('batchs', '/batchs')
 
     config.include('rebecca.fanstatic')
