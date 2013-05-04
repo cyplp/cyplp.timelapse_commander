@@ -1,4 +1,5 @@
 from pyramid.view import view_config
+from pyramid.httpexceptions import HTTPFound
 
 import zmq
 
@@ -17,6 +18,27 @@ def controls(request):
     status = orderEmetter.recv_json()
 
     return {'status': status}
+
+@view_config(route_name='launch', renderer='json')
+def launch(request):
+
+    orderEmetter.send_json({'command': 'start',
+                        'interval': 1,
+                        'filename': 'tmp/crnnwaza3%d.nef',
+                        'batch': "testCoucdb"})
+    orderEmetter.send_json({'command': 'status'})
+    ack = orderEmetter.recv_json()
+    print ack
+    # TODO flash
+    raise HTTPFound(request.route_path('controls'))
+
+@view_config(route_name='stop', renderer='json')
+def stop(request):
+    orderEmetter.send_json({'command': 'stop',})
+    ack = orderEmetter.recv_json()
+    print ack
+    raise HTTPFound(request.route_path('controls'))
+
 
 @view_config(route_name='batchs', renderer='templates/batchs.pt')
 def batchs(request):
