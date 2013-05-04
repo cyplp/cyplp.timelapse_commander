@@ -6,7 +6,8 @@ def main(global_config, **settings):
     config = Configurator(settings=settings)
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('home', '/')
+    config.include('rebecca.fanstatic')
+    config.add_fanstatic_resources(['js.bootstrap.bootstrap'], r'.*\.pt')
+
     config.scan()
-    # config.include('rebecca.fanstatic')
-    # config.add_fanstatic_resources(['js.bootstrap'], r'.*\.pt')
     return config.make_wsgi_app()
