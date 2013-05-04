@@ -15,12 +15,29 @@
       <div class="row-fluid">
 	<div class="span3">
 	  <ul class="nav nav-tabs nav-stacked">
-	     <li class="active">
-	       <a href="#">Controls</a>
-	     </li>
-	     <li class="active">
-	       <a href="#">Batchs</a>
-	     </li>
+	    <li tal:condition="request.view_name == 'home'" class="active">
+	      <a href="${request.route_path('home')}">Home</a>
+	    </li>
+	    <li tal:condition="request.view_name != 'home'" >
+	      <a href="${request.route_path('home')}">Home</a>
+	    </li>
+
+	    <li tal:condition="request.view_name == 'controls'" class="active">
+	      <a href="${request.route_path('controls')}">Controls !</a>
+	    </li>
+
+	    <li tal:condition="request.view_name != 'controls'" >
+	      <a href="${request.route_path('controls')}">Controls</a>
+	    </li>
+
+	    <li tal:condition="request.view_name == 'batchs'" class="active">
+	      <a href="${request.route_path('batchs')}">Batchs</a>
+	    </li>
+
+	    <li tal:condition="request.view_name != 'batchs'" >
+	      <a href="${request.route_path('batchs')}">Batchs</a>
+	    </li>
+
 	  </ul>
 	</div>
 	<div class="span9">
