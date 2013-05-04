@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      >
+  <head>
+    <title>timelapse commander</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta name="keywords" content="python web application" />
+    <meta name="description" content="pyramid web application" />
+    <link rel="shortcut icon" href="${request.static_url('cyplp.timelapse_commander:static/favicon.ico')}" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row-fluid">
+	<div class="span3">
+	  <ul class="nav nav-tabs nav-stacked">
+	     <li class="active">
+	       <a href="#">Controls</a>
+	     </li>
+	     <li class="active">
+	       <a href="#">Batchs</a>
+	     </li>
+	  </ul>
+	</div>
+	<div class="span9">
+	   <div id="content" metal:define-slot="content">
+
+	   </div>
+	</div>
+      </div>
+    </div>
+
+  </body>
+</html>
