@@ -1,0 +1,20 @@
+<metal:main use-macro="load: layout.pt">
+  <div metal:fill-slot="content">
+    <h1>Batch ${name}</h1>
+
+    <div class="span7">
+      <div class="span5" tal:repeat="image images">
+	<div class="row">
+	  <span class="span2">filename</span>
+	  <span class="span3">${image['filename']}</span>
+	</div>
+	<div class="row">
+	  <span class="span2">size</span>
+	  <span class="span3">${image['attachment']['doc']['length']}</span>
+	</div>
+      </div>
+    </div>
+
+  </div>
+
+</metal:main>

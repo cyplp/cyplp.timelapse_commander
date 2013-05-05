@@ -3,10 +3,21 @@ from pyramid.httpexceptions import HTTPFound
 
 import zmq
 
+import couchdbkit
+from couchdbkit.designer import push
+
+from model import StorageFile
+
 context = zmq.Context()
 
-orderEmetter = context.socket(zmq.REQ)
-orderEmetter.connect("tcp://127.0.0.1:5559")  # TODO timeout
+# server object
+server = couchdbkit.Server()
+
+# create database
+db = server.get_or_create_db('timelapse')
+StorageFile.set_db(db)
+
+push('couchdb/_design/storagefile', db)
 
 @view_config(route_name='home', renderer='templates/home.pt')
 def home(request):
@@ -15,6 +26,8 @@ def home(request):
 
 @view_config(route_name='controls', renderer='templates/controls.pt')
 def controls(request):
+    orderEmetter = context.socket(zmq.REQ)
+    orderEmetter.connect("tcp://127.0.0.1:5559")  # TODO timeout
 
     orderEmetter.send_json({'command': 'status'})
     status = orderEmetter.recv_json()
@@ -24,6 +37,8 @@ def controls(request):
 @view_config(route_name='launch', renderer='json')
 def launch(request):
     # TODO get params
+    orderEmetter = context.socket(zmq.REQ)
+    orderEmetter.connect("tcp://127.0.0.1:5559")  # TODO timeout
 
     orderEmetter.send_json({'command': 'start',
                         'interval': 1,
@@ -45,6 +60,9 @@ def launch(request):
 
 @view_config(route_name='stop', renderer='json')
 def stop(request):
+    orderEmetter = context.socket(zmq.REQ)
+    orderEmetter.connect("tcp://127.0.0.1:5559")  # TODO timeout
+
     orderEmetter.send_json({'command': 'stop',})
     ack = orderEmetter.recv_json()
 
@@ -60,4 +78,14 @@ def stop(request):
 
 @view_config(route_name='batchs', renderer='templates/batchs.pt')
 def batchs(request):
-    return {}
+    allBatch = StorageFile.view('batchpy/pyall', group=True)
+    batches = allBatch.all()
+    return {'batches': batches}
+
+@view_config(route_name='batch', renderer='templates/batch.pt')
+def batch(request):
+
+    images =  db.view('plop/all', key=request.matchdict['name']).all()
+    print images
+    return {'name': request.matchdict['name'],
+            'images': [image['value'] for image in images]}

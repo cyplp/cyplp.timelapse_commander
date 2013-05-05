@@ -1,5 +1,19 @@
 <metal:main use-macro="load: layout.pt">
   <div metal:fill-slot="content">
-    <h1>Hello</h1>
+    <h1>Batchs</h1>
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+	<tr>
+	  <th>Batch Name</th>
+	  <th>quantity</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr tal:repeat="batch batches">
+	  <td><a href="${request.route_path('batch', name=batch['key'])}">${batch['key']}</a></td>
+	  <td>${batch['value']}</td>
+	</tr>
+      </tbody>
+    </table>
   </div>
 </metal:main>

@@ -21,6 +21,7 @@ def main(global_config, **settings):
     config.add_route('stop', '/controls/stop')
 
     config.add_route('batchs', '/batchs')
+    config.add_route('batch', '/batch/{name}')
 
     config.include('rebecca.fanstatic')
     config.add_fanstatic_resources(['js.bootstrap.bootstrap'], r'.*\.pt')

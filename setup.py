@@ -17,6 +17,7 @@ requires = [
     'pyzmq',
     'couchdbkit',
     'pyramid_beaker',
+    'rpdb',
     ]
 
 setup(name='cyplp.timelapse_commander',
