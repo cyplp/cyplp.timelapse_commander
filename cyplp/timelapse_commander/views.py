@@ -1,5 +1,9 @@
+import urllib2
+
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
+
+from pyramid.response import FileIter
 
 import zmq
 
@@ -41,9 +45,9 @@ def launch(request):
     orderEmetter.connect("tcp://127.0.0.1:5559")  # TODO timeout
 
     orderEmetter.send_json({'command': 'start',
-                        'interval': 1,
-                        'filename': 'tmp/crnnwaza3%d.nef',
-                        'batch': "testCoucdb"})
+                        'interval': int(request.POST['interval']),
+                        'filename': request.POST['fileName'],
+                        'batch': request.POST['batchName']})
 
     orderEmetter.send_json({'command': 'status'})
 
@@ -84,8 +88,23 @@ def batchs(request):
 
 @view_config(route_name='batch', renderer='templates/batch.pt')
 def batch(request):
-
     images =  db.view('plop/all', key=request.matchdict['name']).all()
-    print images
     return {'name': request.matchdict['name'],
             'images': [image['value'] for image in images]}
+
+
+@view_config(route_name='image')
+def image(request):
+    print  request.matchdict['id']
+    url = 'http://localhost:5984/timelapse/%s/doc.jpg' % request.matchdict['id']
+    print url
+
+    # import rpdb
+    # rpdb.set_trace()
+
+    req = urllib2.urlopen(url)
+    # tmp = req.read()
+    response = request.response
+    response.content_type = 'image/jpeg'
+    response.app_iter = FileIter(req)
+    return response

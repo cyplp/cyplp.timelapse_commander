@@ -3,14 +3,17 @@
     <h1>Batch ${name}</h1>
 
     <div class="span7">
-      <div class="span5" tal:repeat="image images">
+      <div class="span7" tal:repeat="image images">
 	<div class="row">
 	  <span class="span2">filename</span>
 	  <span class="span3">${image['filename']}</span>
 	</div>
 	<div class="row">
 	  <span class="span2">size</span>
-	  <span class="span3">${image['attachment']['doc']['length']}</span>
+	  <span class="span3">${image['attachment']['doc.jpg']['length']}</span>
+	</div>
+	<div>
+	  <img src="${request.route_path('image', id=image['id'])}" class="img-rounded" width="180" />
 	</div>
       </div>
     </div>
